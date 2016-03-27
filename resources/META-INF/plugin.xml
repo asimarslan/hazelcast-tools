@@ -1,0 +1,35 @@
+<idea-plugin version="2">
+	<id>com.hazelcast.idea.plugins.toolcast</id>
+	<name>Hazelcast Tools Plugin</name>
+	<version>1.0</version>
+	<vendor email="hazelcast@googlegroups.com" url="http://www.hazelcast.com">Hazelcast Inc.</vendor>
+
+	<description><![CDATA[
+      Hazelcast Tools plugin.<br>
+      <em>Hazelcast serialization code generator for Portable, Identified and Dataserializable</em>
+    ]]></description>
+
+	<change-notes><![CDATA[]]></change-notes>
+
+	<!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+	<idea-version since-build="141.0"/>
+
+	<!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+		 on how to target different products -->
+	<!-- uncomment to enable plugin in all products
+	<depends>com.intellij.modules.lang</depends>
+	-->
+
+	<extensions defaultExtensionNs="com.intellij">
+		<!-- Add your extensions here -->
+	</extensions>
+
+	<actions>
+		<action id="generateGuavaEqualsHashCode" class="com.hazelcast.idea.plugins.toolcast.HazelcastPortableGenerator"
+				text="Hazelcast portable writePortable() and readPortable()..."
+				description="Hazelcast portable writePortable() and readPortable()...">
+			<add-to-group group-id="GenerateGroup" anchor="last"/>
+		</action>
+	</actions>
+
+</idea-plugin>
