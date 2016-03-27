@@ -24,10 +24,6 @@ import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.util.PsiTreeUtil;
 
 public abstract class UtilityGeneration extends AnAction {
-    public static final String COM_GOOGLE_COMMON_BASE_OBJECTS = "com.google.common.base.Objects";
-    public static final String JAVA_UTIL_OBJECTS = "java.util.Objects";
-    public static final LanguageLevel JAVA_UTIL_OBJECTS_VERSION = LanguageLevel.JDK_1_7;
-    protected boolean hasJavaUtilObjects = false;
     private String dialogTitle;
 
     public UtilityGeneration(String text, String dialogTitle) {
@@ -36,8 +32,6 @@ public abstract class UtilityGeneration extends AnAction {
     }
 
     public void actionPerformed(AnActionEvent e) {
-        hasJavaUtilObjects = findLanguageLevel(e).compareTo(JAVA_UTIL_OBJECTS_VERSION) >= 0;
-
         PsiClass psiClass = getPsiClassFromContext(e);
         GenerateDialog dlg = new GenerateDialog(psiClass, dialogTitle);
         dlg.show();
