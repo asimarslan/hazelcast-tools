@@ -1,5 +1,5 @@
 <idea-plugin version="2">
-	<id>com.hazelcast.idea.plugins.toolcast</id>
+	<id>com.hazelcast.idea.plugins.tools</id>
 	<name>Hazelcast Tools Plugin</name>
 	<version>1.0</version>
 	<vendor email="hazelcast@googlegroups.com" url="http://www.hazelcast.com">Hazelcast Inc.</vendor>
@@ -25,9 +25,14 @@
 	</extensions>
 
 	<actions>
-		<action id="generateGuavaEqualsHashCode" class="com.hazelcast.idea.plugins.toolcast.HazelcastPortableGenerator"
-				text="Hazelcast portable writePortable() and readPortable()..."
+		<action id="generatePortable" class="com.hazelcast.idea.plugins.tools.HazelcastPortableGenerator"
+				text="Hazelcast Portable writePortable-readPortable"
 				description="Hazelcast portable writePortable() and readPortable()...">
+			<add-to-group group-id="GenerateGroup" anchor="last"/>
+		</action>
+		<action id="generateDataserializable" class="com.hazelcast.idea.plugins.tools.HazelcastDataserializableGenerator"
+				text="Hazelcast DataSerializable writeData-readData"
+				description="Hazelcast DataSerializable writeData() and readData()">
 			<add-to-group group-id="GenerateGroup" anchor="last"/>
 		</action>
 	</actions>

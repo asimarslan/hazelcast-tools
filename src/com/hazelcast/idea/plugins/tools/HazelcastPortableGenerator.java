@@ -1,4 +1,4 @@
-package com.hazelcast.idea.plugins.toolcast;
+package com.hazelcast.idea.plugins.tools;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,8 @@
-package com.hazelcast.idea.plugins.toolcast;
+package com.hazelcast.idea.plugins.tools;
 
 import java.util.List;
 
 import javax.swing.JComponent;
-import javax.swing.JList;
 import javax.swing.JPanel;
 
 import org.jetbrains.annotations.Nullable;
