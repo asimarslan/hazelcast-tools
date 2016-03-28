@@ -1,12 +1,11 @@
 <idea-plugin version="2">
 	<id>com.hazelcast.idea.plugins.tools</id>
-	<name>Hazelcast Tools Plugin</name>
+	<name>Hazelcast Tools</name>
 	<version>1.0</version>
-	<vendor email="hazelcast@googlegroups.com" url="http://www.hazelcast.com">Hazelcast Inc.</vendor>
+	<vendor email="arslanasim@gmail.com" url="http://www.asimarslan.com">Asim Arslan</vendor>
 
 	<description><![CDATA[
-      Hazelcast Tools plugin.<br>
-      <em>Hazelcast serialization code generator for Portable, Identified and Dataserializable</em>
+      Hazelcast Tools Plugin supporting Hazelcast serialization code generator for Portable, Identified and Dataserializable
     ]]></description>
 
 	<change-notes><![CDATA[]]></change-notes>

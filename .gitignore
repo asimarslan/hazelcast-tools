@@ -20,4 +20,5 @@ performance*.log
 .attach_pid*
 hs_err_pid*
 *.class
+*.jar
 
