@@ -24,85 +24,86 @@ import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.util.PsiTreeUtil;
 
 public abstract class UtilityGeneration extends AnAction {
-    private String dialogTitle;
+	private String dialogTitle;
 
-    public UtilityGeneration(String text, String dialogTitle) {
-        super(text);
-        this.dialogTitle = dialogTitle;
-    }
+	public UtilityGeneration(String text, String dialogTitle) {
+		super(text);
+		this.dialogTitle = dialogTitle;
+	}
 
-    public void actionPerformed(AnActionEvent e) {
-        PsiClass psiClass = getPsiClassFromContext(e);
-        GenerateDialog dlg = new GenerateDialog(psiClass, dialogTitle);
-        dlg.show();
-        if (dlg.isOK()) {
-            generate(psiClass, dlg.getFields());
-        }
-    }
+	public void actionPerformed(AnActionEvent e) {
+		PsiClass psiClass = getPsiClassFromContext(e);
+		GenerateDialog dlg = new GenerateDialog(psiClass, dialogTitle);
+		dlg.show();
+		if (dlg.isOK()) {
+			generate(psiClass, dlg.getFields());
+		}
+	}
 
-    private LanguageLevel findLanguageLevel(AnActionEvent e) {
-        Module module = DataKeys.MODULE.getData(e.getDataContext());
-        LanguageLevel languageLevel = LanguageLevel.JDK_1_6;
+	private LanguageLevel findLanguageLevel(AnActionEvent e) {
+		Module module = DataKeys.MODULE.getData(e.getDataContext());
+		LanguageLevel languageLevel = LanguageLevel.JDK_1_6;
 
-        Project project = e.getProject();
-        if (project != null) {
-            languageLevel = LanguageLevelProjectExtension.getInstance(project).getLanguageLevel();
-        }
+		Project project = e.getProject();
+		if (project != null) {
+			languageLevel = LanguageLevelProjectExtension.getInstance(project).getLanguageLevel();
+		}
 
-        if (module != null) {
-            LanguageLevel moduleLanguageLevel = LanguageLevelModuleExtensionImpl.getInstance(module).getLanguageLevel();
-            languageLevel = moduleLanguageLevel != null ? moduleLanguageLevel : languageLevel;
-        }
+		if (module != null) {
+			LanguageLevel moduleLanguageLevel = LanguageLevelModuleExtensionImpl.getInstance(module).getLanguageLevel();
+			languageLevel = moduleLanguageLevel != null ? moduleLanguageLevel : languageLevel;
+		}
 
-        return languageLevel;
-    }
+		return languageLevel;
+	}
 
-    abstract public void generate(final PsiClass psiClass, final List<PsiField> fields);
+	abstract public void generate(final PsiClass psiClass, final List<PsiField> fields);
 
-    protected void setNewMethod(PsiClass psiClass, String newMethodBody, String methodName) {
-        PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(psiClass.getProject());
-        PsiMethod newEqualsMethod = elementFactory.createMethodFromText(newMethodBody, psiClass);
-        PsiElement method = addOrReplaceMethod(psiClass, newEqualsMethod, methodName);
-        JavaCodeStyleManager.getInstance(psiClass.getProject()).shortenClassReferences(method);
-    }
+	protected void setNewMethod(PsiClass psiClass, String newMethodBody, String methodName) {
+		PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(psiClass.getProject());
+		PsiMethod newEqualsMethod = elementFactory.createMethodFromText(newMethodBody, psiClass);
+		PsiElement method = addOrReplaceMethod(psiClass, newEqualsMethod, methodName);
+		JavaCodeStyleManager.getInstance(psiClass.getProject()).shortenClassReferences(method);
+	}
 
-    protected PsiElement addOrReplaceMethod(PsiClass psiClass, PsiMethod newEqualsMethod, String methodName) {
-        PsiMethod existingEqualsMethod = findMethod(psiClass, methodName);
+	protected PsiElement addOrReplaceMethod(PsiClass psiClass, PsiMethod newEqualsMethod, String methodName) {
+		PsiMethod existingEqualsMethod = findMethod(psiClass, methodName);
 
-        PsiElement method;
-        if (existingEqualsMethod != null) {
-            method = existingEqualsMethod.replace(newEqualsMethod);
-        }
-        else {
-            method = psiClass.add(newEqualsMethod);
-        }
-        return method;
-    }
+		PsiElement method;
+		if (existingEqualsMethod != null) {
+			method = existingEqualsMethod.replace(newEqualsMethod);
+		}
+		else {
+			method = psiClass.add(newEqualsMethod);
+		}
+		return method;
+	}
 
-    protected PsiMethod findMethod(PsiClass psiClass, String methodName) {
-        PsiMethod[] allMethods = psiClass.getAllMethods();
-        for (PsiMethod method : allMethods) {
-            if (psiClass.getName().equals(method.getContainingClass().getName()) && methodName.equals(method.getName())) {
-                return method;
-            }
-        }
-        return null;
-    }
+	protected PsiMethod findMethod(PsiClass psiClass, String methodName) {
+		PsiMethod[] allMethods = psiClass.getAllMethods();
+		for (PsiMethod method : allMethods) {
+			if (psiClass.getName().equals(method.getContainingClass().getName()) && methodName.equals(method.getName())) {
+				return method;
+			}
+		}
+		return null;
+	}
 
-    @Override
-    public void update(AnActionEvent e) {
-        PsiClass psiClass = getPsiClassFromContext(e);
-        e.getPresentation().setEnabled(psiClass != null);
-    }
+	@Override
+	public void update(AnActionEvent e) {
+		PsiClass psiClass = getPsiClassFromContext(e);
+		e.getPresentation().setEnabled(psiClass != null);
+		e.getPresentation().setIcon(IconConstants.HZ_ACTION);
+	}
 
-    private PsiClass getPsiClassFromContext(AnActionEvent e) {
-        PsiFile psiFile = e.getData(LangDataKeys.PSI_FILE);
-        Editor editor = e.getData(PlatformDataKeys.EDITOR);
-        if (psiFile == null || editor == null) {
-            return null;
-        }
-        int offset = editor.getCaretModel().getOffset();
-        PsiElement elementAt = psiFile.findElementAt(offset);
-        return PsiTreeUtil.getParentOfType(elementAt, PsiClass.class);
-    }
+	private PsiClass getPsiClassFromContext(AnActionEvent e) {
+		PsiFile psiFile = e.getData(LangDataKeys.PSI_FILE);
+		Editor editor = e.getData(PlatformDataKeys.EDITOR);
+		if (psiFile == null || editor == null) {
+			return null;
+		}
+		int offset = editor.getCaretModel().getOffset();
+		PsiElement elementAt = psiFile.findElementAt(offset);
+		return PsiTreeUtil.getParentOfType(elementAt, PsiClass.class);
+	}
 }

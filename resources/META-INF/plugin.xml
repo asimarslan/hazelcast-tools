@@ -24,14 +24,14 @@
 	</extensions>
 
 	<actions>
-		<action id="generatePortable" class="com.hazelcast.idea.plugins.tools.HazelcastPortableGenerator"
-				text="Hazelcast Portable writePortable-readPortable"
-				description="Hazelcast portable writePortable() and readPortable()...">
+		<action id="hazelcast.generatePortable" class="com.hazelcast.idea.plugins.tools.HazelcastPortableGenerator"
+				text="Portable readPortable-readPortable"
+				description="Hazelcast portable readPortable() and writePortable()...">
 			<add-to-group group-id="GenerateGroup" anchor="last"/>
 		</action>
-		<action id="generateDataserializable" class="com.hazelcast.idea.plugins.tools.HazelcastDataserializableGenerator"
-				text="Hazelcast DataSerializable writeData-readData"
-				description="Hazelcast DataSerializable writeData() and readData()">
+		<action id="hazelcast.generateDataSerializable" class="com.hazelcast.idea.plugins.tools.HazelcastDataserializableGenerator"
+				text="DataSerializable readData-writeData"
+				description="Hazelcast DataSerializable readData() and writeData()">
 			<add-to-group group-id="GenerateGroup" anchor="last"/>
 		</action>
 	</actions>
