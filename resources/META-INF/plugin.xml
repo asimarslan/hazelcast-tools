@@ -5,7 +5,7 @@
 	<vendor email="arslanasim@gmail.com" url="http://www.asimarslan.com">Asim Arslan</vendor>
 
 	<description><![CDATA[
-      Hazelcast Tools Plugin supporting Hazelcast serialization code generator for Portable, Identified and Dataserializable
+      Hazelcast Tools Plugin supporting Hazelcast serialization code generator for Portable, IdentifiedDataserializable and Dataserializable
     ]]></description>
 
 	<change-notes><![CDATA[]]></change-notes>

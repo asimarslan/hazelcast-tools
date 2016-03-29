@@ -1,9 +1,13 @@
 package com.hazelcast.idea.plugins.tools;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -44,6 +48,27 @@ public class GenerateDialog extends DialogWrapper {
 	}
 
 	public List<PsiField> getFields() {
-		return fieldList.getSelectedValuesList();
+		return getSelectedValuesList();
 	}
+
+	public List<PsiField> getSelectedValuesList() {
+		ListSelectionModel sm = fieldList.getSelectionModel();
+		ListModel dm = fieldList.getModel();
+
+		int iMin = sm.getMinSelectionIndex();
+		int iMax = sm.getMaxSelectionIndex();
+
+		if ((iMin < 0) || (iMax < 0)) {
+			return Collections.emptyList();
+		}
+
+		List selectedItems = new ArrayList();
+		for(int i = iMin; i <= iMax; i++) {
+			if (sm.isSelectedIndex(i)) {
+				selectedItems.add(dm.getElementAt(i));
+			}
+		}
+		return selectedItems;
+	}
+
 }
