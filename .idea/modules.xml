@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/hazelcast-tools.iml" filepath="$PROJECT_DIR$/hazelcast-tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hazelcast-tools.iml" filepath="$PROJECT_DIR$/.idea/modules/hazelcast-tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hazelcast-tools_main.iml" filepath="$PROJECT_DIR$/.idea/modules/hazelcast-tools_main.iml" group="hazelcast-tools" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hazelcast-tools_test.iml" filepath="$PROJECT_DIR$/.idea/modules/hazelcast-tools_test.iml" group="hazelcast-tools" />
     </modules>
   </component>
 </project>

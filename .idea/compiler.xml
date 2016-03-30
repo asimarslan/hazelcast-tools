@@ -12,12 +12,15 @@
       <entry name="!?*.flex" />
       <entry name="!?*.kt" />
       <entry name="!?*.clj" />
-      <entry name="!?*.aj" />
     </wildcardResourcePatterns>
     <annotationProcessing>
       <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="hazelcast-tools_main" target="1.6" />
+      <module name="hazelcast-tools_test" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>

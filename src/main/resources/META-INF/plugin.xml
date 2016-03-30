@@ -1,7 +1,7 @@
 <idea-plugin version="2">
 	<id>com.hazelcast.idea.plugins.tools</id>
 	<name>Hazelcast Tools</name>
-	<version>1.1</version>
+	<version>1.0</version>
 	<vendor email="arslanasim@gmail.com" url="http://www.asimarslan.com">Asim Arslan</vendor>
 	<category>Tools Integration</category>
 
