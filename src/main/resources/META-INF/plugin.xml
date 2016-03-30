@@ -1,12 +1,30 @@
 <idea-plugin version="2">
 	<id>com.hazelcast.idea.plugins.tools</id>
 	<name>Hazelcast Tools</name>
-	<version>1.0</version>
+	<version>1.1</version>
 	<vendor email="arslanasim@gmail.com" url="http://www.asimarslan.com">Asim Arslan</vendor>
 	<category>Tools Integration</category>
 
 	<description><![CDATA[
-      Hazelcast Tools Plugin supporting Hazelcast serialization code generator for Portable, IdentifiedDataserializable and Dataserializable
+      <h1>Hazelcast Tools</h1>
+      <br/>
+
+      <a href="https://github.com/asimarslan/hazelcast-tools">GitHub</a> |
+      <a href="https://github.com/asimarslan/hazelcast-tools/issues">Issues</a>
+      <br/>
+      <br/>
+
+      <b>Hazelcast Tools</b> is a plugin for Hazelcast supporting;
+      <br/>
+
+      <b>Features</b>
+      <ul>
+        <li>Hazelcast serialization code generator from user selected fields</li>
+        <li>Hazelcast Portable Serialization readPortable and writePortable method generator</li>
+        <li>Hazelcast IdentifiedDataserializable Serialization readData and writeData method generator</li>
+        <li>Hazelcast Dataserializable Serialization code generator method generator</li>
+      </ul>
+      <br/>
     ]]></description>
 
 	<change-notes><![CDATA[]]></change-notes>
