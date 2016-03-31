@@ -3,34 +3,30 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.0.39"
+    id "org.jetbrains.intellij" version "0.0.42"
 }
 
 apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'kotlin'
-apply plugin: 'java'
-
-compileJava {
-    sourceCompatibility = 1.6
-    targetCompatibility = 1.6
-}
 
 intellij {
-    version '15.0.1' //IntelliJ IDEA dependency
     pluginName 'hazelcast-tools'
-    intellij.updateSinceUntilBuild false
+    version ideaVersion
+    updateSinceUntilBuild false
     publish {
+        username publishUsername
+        password publishPassword
         pluginId '8272'
+        channel publishChannel
     }
 }
-
 group 'com.hazelcast'
-version '1.1'
+version = "${version}"
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.12'
@@ -45,6 +41,6 @@ sourceSets {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:1.0.0"
-    compile "org.jetbrains.kotlin:kotlin-reflect:1.0.0"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 }

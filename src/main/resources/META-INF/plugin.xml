@@ -14,10 +14,8 @@
       <br/>
       <br/>
 
-      <b>Hazelcast Tools</b> is a plugin for Hazelcast supporting;
+      This plugin enable <a href="http://hazelcast.org">Hazelcast</a> support. These features are available:
       <br/>
-
-      <b>Features</b>
       <ul>
         <li>Hazelcast serialization code generator from user selected fields</li>
         <li>Hazelcast Portable Serialization readPortable and writePortable method generator</li>
@@ -30,7 +28,7 @@
 	<change-notes><![CDATA[]]></change-notes>
 
 	<!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-	<idea-version since-build="141.0"/>
+	<idea-version since-build="143.0"/>
 
 	<!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
 		 on how to target different products -->

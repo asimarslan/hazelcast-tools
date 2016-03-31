@@ -73,8 +73,7 @@ class HazelcastPortableGenerator : UtilityGeneration("Generate Hazelcast Portabl
                         builder.append("ObjectDataOutput rawDataOutput = out.getRawDataOutput();")
                     }
                     val fieldNameT = WordUtils.capitalize(field.name)
-                    builder.append(
-                            """boolean isNotNull$fieldNameT = ${field.name} != null;
+                    builder.append("""boolean isNotNull$fieldNameT = ${field.name} != null;
                     if (isNotNull$fieldNameT) {
                         rawDataOutput.writeBoolean(isNotNull$fieldNameT);
                         ${field.name}.writeData(rawDataOutput);

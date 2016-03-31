@@ -22,5 +22,3 @@
 .idea/libraries
 .gradle
 build
-
-gradle.properties
