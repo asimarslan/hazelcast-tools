@@ -1,16 +1,11 @@
 package com.hazelcast.idea.plugins.tools
 
-import java.util.ArrayList
-
-import org.apache.commons.lang.WordUtils
-
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.psi.PsiArrayType
-import com.intellij.psi.PsiClass
-import com.intellij.psi.PsiField
-import com.intellij.psi.PsiType
+import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiClassReferenceType
 import com.intellij.psi.search.GlobalSearchScope
+import org.apache.commons.lang.WordUtils
+import java.util.*
 
 class HazelcastPortableGenerator : UtilityGeneration("Generate Hazelcast Portable write and read", "Select fields for portable") {
 
@@ -22,7 +17,6 @@ class HazelcastPortableGenerator : UtilityGeneration("Generate Hazelcast Portabl
             }
         }.execute()
     }
-
 
     private fun generatePortableWrite(psiClass: PsiClass, fields: List<PsiField>) {
         val builder = StringBuilder("@Override\n")
@@ -46,19 +40,15 @@ class HazelcastPortableGenerator : UtilityGeneration("Generate Hazelcast Portabl
             val type = field.type
             val deepType = field.type.deepComponentType
             val isArray = type is PsiArrayType
-            if (deepType == PsiType.BOOLEAN || deepType == PsiType.BYTE || deepType == PsiType.CHAR || deepType == PsiType.SHORT
-                    || deepType == PsiType.INT || deepType == PsiType.LONG || deepType == PsiType.FLOAT || deepType == PsiType.DOUBLE) {
-                val typeName = WordUtils.capitalize(deepType.getPresentableText())
+            if (deepType in listOf(PsiType.BOOLEAN, PsiType.BYTE, PsiType.CHAR, PsiType.SHORT, PsiType.INT, PsiType.LONG, PsiType.FLOAT, PsiType.DOUBLE)) {
+                val typeName = WordUtils.capitalize(deepType.presentableText)
                 writeField(builder, field.name, typeName, isArray)
             } else if (deepType is PsiClassReferenceType) {
-                if (portableType.isAssignableFrom(deepType)) {
-                    writeField(builder, field.name, "Portable", isArray)
-                } else if (type == stringType) {
-                    writeField(builder, field.name, "UTF", false)
-                } else if (type == stringArrayType) {
-                    writeField(builder, field.name, "UTF", true)
-                } else {
-                    remaining.add(field)
+                when {
+                    portableType.isAssignableFrom(deepType) -> writeField(builder, field.name, "Portable", isArray)
+                    type == stringType -> writeField(builder, field.name, "UTF", false)
+                    type == stringArrayType -> writeField(builder, field.name, "UTF", true)
+                    else -> remaining.add(field)
                 }
             } else {
                 remaining.add(field)
@@ -84,13 +74,13 @@ class HazelcastPortableGenerator : UtilityGeneration("Generate Hazelcast Portabl
                     }
                     val fieldNameT = WordUtils.capitalize(field.name)
                     builder.append(
-"""boolean isNotNull$fieldNameT = ${field.name} != null;
-if (isNotNull$fieldNameT) {
-    rawDataOutput.writeBoolean(isNotNull$fieldNameT);
-    ${field.name}.writeData(rawDataOutput);
-} else {
-    rawDataOutput.writeBoolean(isNotNull$fieldNameT);
-}""")
+                            """boolean isNotNull$fieldNameT = ${field.name} != null;
+                    if (isNotNull$fieldNameT) {
+                        rawDataOutput.writeBoolean(isNotNull$fieldNameT);
+                        ${field.name}.writeData(rawDataOutput);
+                    } else {
+                        rawDataOutput.writeBoolean(isNotNull$fieldNameT);
+                    }""")
                 } else {
                     if (!rawWritten) {
                         rawWritten = true
@@ -128,27 +118,24 @@ if (isNotNull$fieldNameT) {
             val type = field.type
             val deepType = field.type.deepComponentType
             val isArray = type is PsiArrayType
-            if (deepType == PsiType.BOOLEAN || deepType == PsiType.BYTE || deepType == PsiType.CHAR || deepType == PsiType.SHORT
-                    || deepType == PsiType.INT || deepType == PsiType.LONG || deepType == PsiType.FLOAT || deepType == PsiType.DOUBLE) {
-                val typeName = WordUtils.capitalize(deepType.getPresentableText())
+            if (deepType in listOf(PsiType.BOOLEAN, PsiType.BYTE, PsiType.CHAR, PsiType.SHORT, PsiType.INT, PsiType.LONG, PsiType.FLOAT, PsiType.DOUBLE)) {
+                val typeName = WordUtils.capitalize(deepType.presentableText)
                 readField(builder, field.name, typeName, isArray)
             } else if (deepType is PsiClassReferenceType) {
-                if (portableType.isAssignableFrom(deepType)) {
-                    if (isArray) {
-                        builder.append(
-                        """Portable[] ${field.name} = in.readPortableArray("${field.name}");
+                when {
+                    portableType.isAssignableFrom(deepType) -> {
+                        if (isArray) {
+                            builder.append("""Portable[] ${field.name} = in.readPortableArray("${field.name}");
                         this.${field.name} = new ${deepType.className}[${field.name}.length];
                         System.arraycopy(${field.name}, 0, this.${field.name}, 0, ${field.name}.length);
                         """)
-                    } else {
-                        readField(builder, field.name, "Portable", isArray)
+                        } else {
+                            readField(builder, field.name, "Portable", isArray)
+                        }
                     }
-                } else if (type == stringType) {
-                    readField(builder, field.name, "UTF", false)
-                } else if (type == stringArrayType) {
-                    readField(builder, field.name, "UTF", true)
-                } else {
-                    remaining.add(field)
+                    type == stringType -> readField(builder, field.name, "UTF", false)
+                    type == stringArrayType -> readField(builder, field.name, "UTF", true)
+                    else -> remaining.add(field)
                 }
             } else {
                 remaining.add(field)
@@ -173,13 +160,15 @@ if (isNotNull$fieldNameT) {
                         builder.append("ObjectDataInput rawDataInput = in.getRawDataInput();\n")
                     }
                     val fieldNameT = WordUtils.capitalize(field.name)
+                    val classImpl = if (tt.resolve()!!.hasModifierProperty(PsiModifier.ABSTRACT) || tt.resolve()!!.isInterface) "//TODO:ClassImplConstructor" else tt.className
+
                     builder.append(
-"""boolean isNotNull$fieldNameT = rawDataInput.readBoolean();
-if (isNotNull$fieldNameT) {
-    ${tt.className} ${field.name} = new ${tt.className}();
-    ${field.name}.readData(rawDataInput);
-    this.${field.name} = ${field.name};
-}""")
+                            """boolean isNotNull$fieldNameT = rawDataInput.readBoolean();
+                    if (isNotNull$fieldNameT) {
+                        ${tt.className} ${field.name} = new $classImpl();
+                        ${field.name}.readData(rawDataInput);
+                        this.${field.name} = ${field.name};
+                    }""")
                 } else {
                     if (!rawWritten) {
                         rawWritten = true

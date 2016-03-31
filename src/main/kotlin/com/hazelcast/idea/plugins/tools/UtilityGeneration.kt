@@ -1,9 +1,9 @@
 package com.hazelcast.idea.plugins.tools
 
-import com.intellij.openapi.actionSystem.*
-import com.intellij.openapi.roots.LanguageLevelModuleExtensionImpl
-import com.intellij.openapi.roots.LanguageLevelProjectExtension
-import com.intellij.pom.java.LanguageLevel
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.LangDataKeys
+import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.psi.*
 import com.intellij.psi.codeStyle.JavaCodeStyleManager
 import com.intellij.psi.util.PsiTreeUtil
@@ -19,22 +19,22 @@ abstract class UtilityGeneration(text: String, private val dialogTitle: String) 
         }
     }
 
-//    private fun findLanguageLevel(e: AnActionEvent): LanguageLevel {
-//        val module = DataKeys.MODULE.getData(e.dataContext)
-//        var languageLevel = LanguageLevel.JDK_1_6
-//
-//        val project = e.project
-//        if (project != null) {
-//            languageLevel = LanguageLevelProjectExtension.getInstance(project).languageLevel
-//        }
-//
-//        if (module != null) {
-//            val moduleLanguageLevel = LanguageLevelModuleExtensionImpl.getInstance(module).languageLevel
-//            languageLevel = moduleLanguageLevel ?: languageLevel
-//        }
-//
-//        return languageLevel
-//    }
+    //    private fun findLanguageLevel(e: AnActionEvent): LanguageLevel {
+    //        val module = DataKeys.MODULE.getData(e.dataContext)
+    //        var languageLevel = LanguageLevel.JDK_1_6
+    //
+    //        val project = e.project
+    //        if (project != null) {
+    //            languageLevel = LanguageLevelProjectExtension.getInstance(project).languageLevel
+    //        }
+    //
+    //        if (module != null) {
+    //            val moduleLanguageLevel = LanguageLevelModuleExtensionImpl.getInstance(module).languageLevel
+    //            languageLevel = moduleLanguageLevel ?: languageLevel
+    //        }
+    //
+    //        return languageLevel
+    //    }
 
     abstract fun generate(psiClass: PsiClass, fields: List<PsiField>)
 
@@ -47,14 +47,7 @@ abstract class UtilityGeneration(text: String, private val dialogTitle: String) 
 
     protected fun addOrReplaceMethod(psiClass: PsiClass, newEqualsMethod: PsiMethod, methodName: String): PsiElement {
         val existingEqualsMethod = findMethod(psiClass, methodName)
-
-        val method: PsiElement
-        if (existingEqualsMethod != null) {
-            method = existingEqualsMethod.replace(newEqualsMethod)
-        } else {
-            method = psiClass.add(newEqualsMethod)
-        }
-        return method
+        return if (existingEqualsMethod != null) existingEqualsMethod.replace(newEqualsMethod) else psiClass.add(newEqualsMethod)
     }
 
     protected fun findMethod(psiClass: PsiClass, methodName: String): PsiMethod? {
