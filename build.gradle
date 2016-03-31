@@ -23,6 +23,10 @@ compileJava {
 intellij {
     version '15.0.1' //IntelliJ IDEA dependency
     pluginName 'hazelcast-tools'
+    intellij.updateSinceUntilBuild false
+    publish {
+        pluginId '8272'
+    }
 }
 
 group 'com.hazelcast'
