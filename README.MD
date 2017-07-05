@@ -1,19 +1,19 @@
-#Hazelcast Tools - IntelliJ IDEA Plugin
+# Hazelcast Tools - IntelliJ IDEA Plugin
 
-###Features
+### Features
 * Hazelcast Portable Serializer code generator for writePortable and readPortable from class fields
 * Hazelcast IdentifiedDataSerializable & DataSerializable Serializer code generator for writeData and readData from class fields
 
-###Installation
+### Installation
 
 1. Plugin can be downloaded from [IntelliJ IDEA Plugin Repository](https://plugins.jetbrains.com/plugin/8272)
 2. Install within IntelliJ IDEA Preferences > plugins
 
-###License
+### License
 
 Available under the Apache 2 License.
 
-###Copyright
+### Copyright
 
 Copyright (c) 2016, Asim Arslan. All Rights Reserved.
 
